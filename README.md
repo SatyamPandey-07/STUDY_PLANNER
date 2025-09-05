@@ -1,17 +1,4 @@
-# 📚 Smart Study Planner
-
-A comprehensive web-based study planning application with task management, goal tracking, Pomodoro timer, and Google Calendar integration.
-
-## 🚀 Quick Start
-
-### For Basic Use:
-1. Open `index.html` in your browser
-
-### For Google Calendar Sync:
-1. Double-click `start-server.bat` (Windows)
-<div align="center">
-
-# 🚀 Smart Study Planner
+#  Smart Study Planner
 
 <img src="https://img.shields.io/badge/Status-Complete-brightgreen" />
 <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" />
@@ -23,6 +10,12 @@ A comprehensive web-based study planning application with task management, goal 
 </div>
 
 > **A comprehensive, feature-rich study planner with advanced task management, goal tracking, Pomodoro timer, Google Calendar integration, and analytics dashboard.**
+
+## 🌐 Live Demo & Links
+
+🔗 **[🚀 Live Application](https://satyampandey-07.github.io/STUDY_PLANNER/)** - Try it now!
+
+📹 **[🎥 Demo Video](https://drive.google.com/file/d/1MLa9_t6QE37IvaJJINQBdp8P5MCems79/view?usp=drive_link)** - See it in action!
 
 ---
 
