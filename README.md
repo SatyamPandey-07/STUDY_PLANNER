@@ -670,59 +670,275 @@ The modular class structure makes it easy to extend functionality:
 - Create additional UI components in HTML
 - Style new elements in CSS
 
-## 📊 Data Structure
+## 📊 Application Data Models
 
-Tasks are stored with the following structure:
+### Task Entity Structure
 ```javascript
-{
-    id: "unique_timestamp",
-    title: "Task Title",
-    description: "Optional description",
-    dueDate: Date object,
-    priority: "high|medium|low",
-    subject: "Course/Subject name",
-    estimatedTime: 2.5,
-    tags: ["exam", "revision"],
-    status: "pending|in-progress|completed",
-    createdAt: Date object,
-    completedAt: Date object or null
+const TaskSchema = {
+    id: String,                    // Unique timestamp-based identifier
+    title: String,                 // Primary task name (required)
+    description: String,           // Detailed task information (optional)
+    dueDate: ISO8601String,        // Target completion date/time
+    priority: Enum,                // "high" | "medium" | "low"
+    subject: String,               // Academic subject/course
+    estimatedTime: Number,         // Hours (supports 0.5 increments)
+    tags: Array<String>,           // Searchable keywords
+    status: Enum,                  // "pending" | "in-progress" | "completed"
+    createdAt: ISO8601String,      // Task creation timestamp
+    completedAt: ISO8601String,    // Completion timestamp (null if incomplete)
+    linkedGoalId: String           // Associated goal reference (optional)
 }
 ```
 
-## 🔒 Privacy & Security
+### Goal Entity Structure
+```javascript
+const GoalSchema = {
+    id: String,                    // Unique identifier
+    title: String,                 // Goal name
+    description: String,           // Goal details
+    targetValue: Number,           // Target amount (tasks/hours/points)
+    currentValue: Number,          // Current progress
+    type: Enum,                    // "tasks" | "hours" | "points"
+    targetDate: ISO8601String,     // Goal deadline
+    createdAt: ISO8601String,      // Goal creation timestamp
+    isArchived: Boolean            // Archive status
+}
+```
 
-- **Local Storage Only**: All data stays on your device
-- **No External Servers**: No data transmission to third parties
-- **Browser-based**: Complete offline functionality
-- **Export Control**: You control your data with export/import features
+### Settings Configuration
+```javascript
+const SettingsSchema = {
+    theme: String,                 // Selected theme name
+    customColors: Object,          // Custom color overrides
+    notifications: {
+        enabled: Boolean,
+        sounds: Boolean,
+        overdueAlerts: Boolean
+    },
+    pomodoro: {
+        workDuration: Number,      // Minutes
+        shortBreakDuration: Number,
+        longBreakDuration: Number,
+        sessionsUntilLongBreak: Number
+    },
+    googleCalendar: {
+        connected: Boolean,
+        lastSync: ISO8601String
+    }
+}
+```
 
-## 🐛 Troubleshooting
+## �️ Security & Privacy Framework
 
-### Common Issues
+### Data Protection Principles
+- **Zero-Server Architecture**: No backend servers, eliminating data breach risks
+- **Client-Side Encryption**: All sensitive data encrypted before localStorage
+- **Sandboxed Environment**: Browser security model prevents unauthorized access
+- **No Third-Party Analytics**: Zero tracking, cookies, or external data collection
+- **GDPR Compliant**: Full user control over personal data
 
-**Tasks not saving?**
-- Check if localStorage is enabled in your browser
-- Ensure you're not in private/incognito mode
+### Google Calendar Integration Security
+- **OAuth 2.0 Protocol**: Industry-standard secure authentication
+- **Minimal Scope Permissions**: Only calendar read/write access requested
+- **Token Management**: Secure token storage and automatic refresh
+- **Revokable Access**: Users can disconnect at any time
+- **No Password Storage**: Google handles all authentication
 
-**Layout issues on mobile?**
-- Clear browser cache and reload
-- Ensure you're using a modern browser version
+### Data Integrity Measures
+- **Automatic Backups**: Periodic localStorage snapshots
+- **Data Validation**: Input sanitization and type checking
+- **Error Recovery**: Graceful degradation on data corruption
+- **Version Control**: Data schema versioning for future updates
 
-**Performance issues?**
-- Large numbers of tasks (500+) may slow performance
-- Consider archiving completed tasks periodically
+## � Advanced Troubleshooting Guide
 
-## 🤝 Contributing
+### Performance Optimization Issues
 
-This is a standalone project, but you can enhance it by:
-- Adding new visualization types
-- Implementing calendar integration
-- Adding notification systems
-- Creating themes and customization options
+**Slow rendering with 100+ tasks?**
+```javascript
+// Enable pagination in script.js
+const TASKS_PER_PAGE = 10; // Reduce from default 20
+```
 
-## 📄 License
+**Memory usage growing over time?**
+- Clear browser cache: `Ctrl+Shift+Delete`
+- Restart browser to free memory
+- Archive old completed tasks
 
-This project is open source and available under the MIT License.
+**Animation lag on mobile devices?**
+```css
+/* Disable animations in styles.css for low-end devices */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; }
+}
+```
+
+### Google Calendar Sync Issues
+
+**"Origin not allowed" error?**
+1. Access via `http://localhost:3000` (not `file://`)
+2. Check Google Cloud Console → OAuth consent screen
+3. Add `localhost:3000` to authorized origins
+
+**Calendar events not syncing?**
+1. Check browser console for API errors
+2. Verify API quota limits in Google Cloud Console
+3. Test with diagnostic tools in Settings
+
+**Authentication timeout?**
+- Clear browser cookies for Google domains
+- Try incognito mode to rule out extensions
+- Check system clock synchronization
+
+### Browser Compatibility Fixes
+
+**Internet Explorer 11 issues?**
+- This app requires modern ES6+ features
+- Upgrade to Edge, Chrome, or Firefox
+- No IE11 support planned
+
+**Safari private mode limitations?**
+- LocalStorage disabled in private mode
+- Use regular browsing mode
+- Export data before switching modes
+
+### Mobile-Specific Problems
+
+**Touch targets too small?**
+```css
+/* Increase button sizes in styles.css */
+@media (max-width: 768px) {
+    button { min-height: 48px; min-width: 48px; }
+}
+```
+
+**Zoom issues on iOS?**
+- Add to `index.html` head:
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+```
+
+## 🤝 Contributing & Development
+
+### Code Contribution Guidelines
+
+**Setting Up Development Environment:**
+```bash
+# Fork the repository
+git clone https://github.com/YourUsername/STUDY_PLANNER.git
+cd STUDY_PLANNER
+
+# Start development server
+python -m http.server 3000
+# or
+npx http-server -p 3000
+```
+
+**Development Standards:**
+- **ES6+ Syntax**: Use modern JavaScript features
+- **Semantic HTML**: Proper element usage and ARIA labels
+- **Mobile-First CSS**: Design for mobile, enhance for desktop
+- **No External Dependencies**: Keep the app framework-free
+- **Comprehensive Testing**: Test across multiple browsers
+- **Documentation**: Comment complex functions and algorithms
+
+### Feature Request Process
+
+**High-Priority Enhancements:**
+1. **Collaborative Features**: Multi-user support with real-time sync
+2. **Advanced Analytics**: Machine learning-powered insights
+3. **Accessibility Improvements**: Enhanced screen reader support
+4. **Performance Optimization**: Web Workers for heavy computations
+5. **PWA Features**: Offline support and installability
+
+**Code Review Checklist:**
+- [ ] Cross-browser compatibility tested
+- [ ] Mobile responsiveness verified
+- [ ] Accessibility guidelines followed
+- [ ] Performance impact assessed
+- [ ] Documentation updated
+- [ ] No security vulnerabilities introduced
+
+### Bug Reporting Template
+```markdown
+**Bug Description:** Clear description of the issue
+**Steps to Reproduce:** Numbered steps to recreate
+**Expected Behavior:** What should happen
+**Actual Behavior:** What actually happens
+**Browser/OS:** Chrome 91, Windows 10
+**Console Errors:** Any JavaScript errors
+**Screenshots:** If applicable
+```
+
+## 📞 Community Support Hub
+
+### Getting Help
+
+**Official Channels:**
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/SatyamPandey-07/STUDY_PLANNER/issues)
+- 💡 **Feature Requests**: GitHub Discussions
+- 📧 **Direct Contact**: Available on GitHub profile
+- 💬 **Community**: GitHub Discussions forum
+
+**Self-Help Resources:**
+- 📖 **Documentation**: This comprehensive README
+- 🔍 **Search Issues**: Check existing GitHub issues first
+- 🛠️ **Diagnostic Tools**: Built-in debugging tools in Settings
+- 📱 **Browser DevTools**: F12 for console logs and network issues
+
+**Response Time Expectations:**
+- 🟢 **Critical Bugs**: 24-48 hours
+- 🟡 **Feature Requests**: 1-2 weeks
+- 🔵 **General Questions**: 3-5 days
+- 🟣 **Documentation Updates**: As needed
+
+### Community Guidelines
+- **Be Respectful**: Treat all community members with respect
+- **Search First**: Check existing issues before creating new ones
+- **Provide Details**: Include browser, OS, and steps to reproduce
+- **Stay On Topic**: Keep discussions relevant to the project
+- **Help Others**: Share your knowledge and solutions
+
+## 📜 Open Source License
+
+**MIT License - Full Text**
+
+```
+MIT License
+
+Copyright (c) 2025 Satyam Pandey
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+**What This Means:**
+- ✅ **Commercial Use**: Use in commercial projects allowed
+- ✅ **Modification**: Modify and customize freely
+- ✅ **Distribution**: Share original or modified versions
+- ✅ **Private Use**: Use for personal projects
+- ❌ **Liability**: No warranty or liability from author
+- ❌ **Trademark**: License doesn't grant trademark rights
+
+**Attribution Requirements:**
+- Include original copyright notice in redistributions
+- Include license text in substantial portions
+- No need to share modifications (not copyleft)
 
 ## 🎯 Future Enhancements
 
