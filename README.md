@@ -1,15 +1,4 @@
 
-# 📚 Smart Study Planner
-
-## 🚀 Quick Start
-
-### For Basic Use:
-1. Open `index.html` in your browser
-
-### For Google Calendar Sync:
-1. Double-click `start-server.bat` (Windows)
-<div align="center">
-
 # 🚀 Smart Study Planner
 
 <img src="https://img.shields.io/badge/Status-Complete-brightgreen" />
@@ -22,6 +11,16 @@
 </div>
 
 > **A comprehensive, feature-rich study planner with advanced task management, goal tracking, Pomodoro timer, Google Calendar integration, and analytics dashboard.**
+
+
+## 🚀 Quick Start
+
+### For Basic Use:
+1. Open `index.html` in your browser
+
+### For Google Calendar Sync:
+1. Double-click `start-server.bat` (Windows)
+<div align="center">
 
 ## 🌐 Live Demo & Links
 
