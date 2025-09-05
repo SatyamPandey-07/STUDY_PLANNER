@@ -309,52 +309,6 @@ const GOOGLE_CLIENT_ID = 'your-id'; // Your client ID
 ```
 
 ---
-
-## 🐛 Troubleshooting
-
-### **Common Issues**
-
-**Tasks not saving?**
-- Ensure localStorage is enabled in browser
-- Check if you're not in private/incognito mode
-- Try clearing browser cache and refreshing
-
-**Google Calendar not connecting?**
-- Use the diagnostic tools in Settings → Google Calendar
-- Ensure you're accessing via `http://localhost:3000`
-- Check your Google Cloud Console OAuth settings
-- Verify your API key and client ID are correct
-
-**Layout issues on mobile?**
-- Clear browser cache and reload
-- Ensure you're using a modern browser
-- Check if JavaScript is enabled
-
-**Performance issues with many tasks?**
-- The app uses pagination (20 tasks per page)
-- Consider archiving completed tasks periodically
-- Use search and filters to narrow down displayed tasks
-
-**Notifications not working?**
-- Check browser notification permissions
-- Ensure notifications are enabled in Settings
-- Try refreshing the page to re-request permissions
-
-### **Browser Console Debugging**
-- Open Developer Tools (F12)
-- Check Console tab for error messages
-- Use the built-in diagnostic tools in Settings
-
----
-
-## 🔐 Privacy & Security
-
-- **Local Storage Only**: All data remains on your device
-- **No External Servers**: Complete offline functionality (except Google Calendar)
-- **Google OAuth**: Secure authentication, no password storage
-- **Data Control**: Full import/export capabilities
-- **No Tracking**: No analytics or user tracking implemented
-
 ---
 
 ## 🤝 Contributing
@@ -382,15 +336,6 @@ This project is open for contributions! Here's how you can help:
 - Test on multiple browsers
 - Ensure mobile responsiveness
 - Update documentation as needed
-
----
-
-## ‍💻 Author & Contact
-
-**Satyam Pandey**
-- 🐙 **GitHub**: [@SatyamPandey-07](https://github.com/SatyamPandey-07)
-- 💼 **LinkedIn**: [Satyam Pandey](https://www.linkedin.com/in/satyam-pandey-0b246432a/)
-- 📧 **Email**: Available on GitHub profile
 
 ---
 
@@ -450,44 +395,6 @@ This project is open for contributions! Here's how you can help:
 
 ---
 
-## 🚦 Quick Start
-
-**Basic:**
-1. Open `index.html` in your browser
-
-**With Google Calendar:**
-1. Double-click `start-server.bat` (Windows) or run `python -m http.server 3000`
-2. Open [http://localhost:3000](http://localhost:3000)
-
----
-
-## 💡 Key Features (Deep Dive)
-
-- **Dashboard:**
-   - Real-time stats, circular progress, quick add, activity feed
-- **Tasks:**
-   - CRUD, priorities, tags, overdue, search, filter, drag & drop
-- **Goals:**
-   - SMART goals, progress bars, link tasks to goals
-- **Calendar/Timeline:**
-   - Monthly/weekly, color-coded, today highlight, navigation
-- **Pomodoro:**
-   - 25/5/15 min cycles, sound, notifications, stats
-- **Analytics:**
-   - Charts, trends, productivity insights
-- **Themes:**
-   - 5+ built-in, custom color picker, dark mode
-- **Notifications:**
-   - Overdue, reminders, browser push
-- **Google Calendar:**
-   - 2-way sync, OAuth2, status diagnostics
-- **Data:**
-   - Export/import CSV, localStorage backup
-- **Mobile:**
-   - Touch, swipe, responsive, PWA-ready
-
----
-
 ## 🧑‍� Author & Links
 
 Made with ❤️ by [Satyam Pandey](https://github.com/SatyamPandey-07)
@@ -496,13 +403,6 @@ Made with ❤️ by [Satyam Pandey](https://github.com/SatyamPandey-07)
 - [LinkedIn](https://www.linkedin.com/in/satyam-pandey-0b246432a/)
 
 ---
-
-1. **Download the files**:
-   ```bash
-   # Clone or download the repository
-   git clone https://github.com/midlaj-muhammed/Smart-Study-Planner-for-AICTE-IBM-Frontend-Internship-Project.git
-   cd smart-study-planner
-   ```
 
 ### Quick Start Guide
 
