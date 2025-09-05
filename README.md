@@ -1,4 +1,16 @@
-#  Smart Study Planner
+
+# 📚 Smart Study Planner
+
+## 🚀 Quick Start
+
+### For Basic Use:
+1. Open `index.html` in your browser
+
+### For Google Calendar Sync:
+1. Double-click `start-server.bat` (Windows)
+<div align="center">
+
+# 🚀 Smart Study Planner
 
 <img src="https://img.shields.io/badge/Status-Complete-brightgreen" />
 <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" />
