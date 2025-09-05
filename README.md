@@ -385,37 +385,7 @@ This project is open for contributions! Here's how you can help:
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
-```
-MIT License
-
-Copyright (c) 2025 Satyam Pandey
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
----
-
-## 👨‍💻 Author & Contact
+## ‍💻 Author & Contact
 
 **Satyam Pandey**
 - 🐙 **GitHub**: [@SatyamPandey-07](https://github.com/SatyamPandey-07)
@@ -447,7 +417,14 @@ SOFTWARE.
 
 ---
 
+- **Web APIs** for rich browser functionality
+- **Open Source Community** for inspiration and best practices
+
+---
+
 **Built with ❤️ for students who want to excel in their academic journey.**
+
+*Happy Studying! 🎓*
 
 *Happy Studying! 🎓*# 🚀 Smart Study Planner
 
@@ -953,13 +930,6 @@ Potential improvements could include:
 - **AI-Powered Suggestions**: Smart task prioritization and scheduling
 - **Study Groups**: Collaborative study sessions and group goals
 - **Advanced Theming**: More customization options and dark mode improvements
-
-## 📞 Support
-
-For questions or issues:
-- Check the troubleshooting section above
-- Review the code documentation in the source files
-- Create an issue if you find bugs or have suggestions
 
 ---
 
