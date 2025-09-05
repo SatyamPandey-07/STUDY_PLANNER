@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Planner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Authentication Modal -->
+    <div id="authModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:4000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+        <div style="background:white;padding:32px 40px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.2);display:flex;flex-direction:column;align-items:center;gap:16px;min-width:300px;">
+            <h2 style="margin-bottom:8px;">Enter Password</h2>
+            <input id="authPassword" type="password" placeholder="Password" style="padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;width:100%;font-size:1rem;" aria-label="Password">
+            <button id="authSubmit" style="margin-top:8px;padding:10px 24px;border-radius:8px;background:#5a67d8;color:#fff;border:none;font-weight:600;cursor:pointer;">Login</button>
+            <span id="authError" style="color:#e53e3e;display:none;">Incorrect password</span>
+        </div>
+    </div>
+    <div class="container" role="main">
+        <header class="header" role="banner" aria-label="Smart Study Planner Header">
+            <h1><i class="fas fa-graduation-cap" aria-hidden="true"></i> Smart Study Planner</h1>
+            <button id="darkModeToggle" aria-label="Toggle dark mode" style="margin-left:16px;font-size:1.2rem;background:none;border:none;cursor:pointer;" tabindex="0"><i class="fas fa-moon"></i></button>
+            <div class="header-stats" aria-label="Task Statistics">
+                <div class="stat-item">
+                    <span class="stat-value" id="totalTasks" aria-live="polite">0</span>
+                    <span class="stat-label">Total Tasks</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="completedTasks" aria-live="polite">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="progressPercent" aria-live="polite">0%</span>
+                    <span class="stat-label">Progress</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-tabs" role="navigation" aria-label="Main Navigation">
+            <button class="tab-btn active" data-tab="dashboard" aria-controls="dashboard" aria-selected="true" tabindex="0">
+                <i class="fas fa-home" aria-hidden="true"></i> <span>Dashboard</span>
+            </button>
+            <button class="tab-btn" data-tab="tasks" aria-controls="tasks" aria-selected="false" tabindex="0">
+                <i class="fas fa-tasks" aria-hidden="true"></i> <span>Tasks</span>
+            </button>
+            <button class="tab-btn" data-tab="timeline" aria-controls="timeline" aria-selected="false" tabindex="0">
+                <i class="fas fa-calendar-alt" aria-hidden="true"></i> <span>Timeline</span>
+            </button>
+            <button class="tab-btn" data-tab="calendar" aria-controls="calendar" aria-selected="false" tabindex="0">
+                <i class="fas fa-calendar" aria-hidden="true"></i> <span>Calendar</span>
+            </button>
+            <button class="tab-btn" data-tab="analytics" aria-controls="analytics" aria-selected="false" tabindex="0">
+                <i class="fas fa-chart-line" aria-hidden="true"></i> <span>Analytics</span>
+            </button>
+            <button class="tab-btn" data-tab="pomodoro" aria-controls="pomodoro" aria-selected="false" tabindex="0">
+                <i class="fas fa-clock" aria-hidden="true"></i> <span>Pomodoro</span>
+            </button>
+            <button class="tab-btn" data-tab="goals" aria-controls="goals" aria-selected="false" tabindex="0">
+                <i class="fas fa-trophy" aria-hidden="true"></i> <span>Goals</span>
+            </button>
+            <button class="tab-btn" data-tab="settings" aria-controls="settings" aria-selected="false" tabindex="0">
+                <i class="fas fa-cog" aria-hidden="true"></i> <span>Settings</span>
+            </button>
+            </nav>
+            <!-- Calendar Tab -->
+            <div class="tab-content" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+                <div class="calendar-header">
+                    <h2>Calendar View</h2>
+                    <div class="calendar-controls">
+                        <button class="btn-secondary" id="prevMonth">
+                            <i class="fas fa-chevron-left"></i> Previous Month
+                        </button>
+                        <span class="current-month" id="currentMonth"></span>
+                        <button class="btn-secondary" id="nextMonth">
+                            Next Month <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="calendar-view" id="calendarView"></div>
+            </div>
+        </nav>
+
+        <main class="main-content" aria-live="polite">
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="dashboard">
+                <div class="dashboard-grid">
+                    <div class="card upcoming-tasks">
+                        <h3><i class="fas fa-clock"></i> Upcoming Tasks</h3>
+                        <div class="task-list" id="upcomingTasksList">
+                            <p class="no-tasks">No upcoming tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card quick-add">
+                        <h3><i class="fas fa-plus"></i> Quick Add Task</h3>
+                        <form class="quick-add-form" id="quickAddForm" aria-label="Quick Add Task" autocomplete="off">
+                            <input type="text" id="quickTaskTitle" placeholder="Task title" required aria-label="Task title">
+                            <input type="date" id="quickTaskDate" required aria-label="Due date">
+                            <select id="quickTaskPriority" aria-label="Priority">
+                                <option value="low">Low Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="high">High Priority</option>
+                            </select>
+                            <button type="submit" aria-label="Add Task"><i class="fas fa-plus" aria-hidden="true"></i> Add Task</button>
+                        </form>
+                    </div>
+
+                    <div class="card progress-overview">
+                        <h3><i class="fas fa-chart-pie"></i> Progress Overview</h3>
+                        <div class="progress-circle" id="progressCircle">
+                            <div class="progress-text">
+                                <span id="progressValue">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card recent-activity">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        <div class="activity-list" id="recentActivity">
+                            <p class="no-activity">No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Tab -->
+            <div class="tab-content" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+                <div class="tasks-header">
+                    <h2>Study Tasks</h2>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <button class="btn-primary" id="addTaskBtn" aria-label="Add New Task" tabindex="0">
+                            <i class="fas fa-plus" aria-hidden="true"></i> Add New Task
+                        </button>
+                        <button class="btn-secondary" id="exportCSVBtn" aria-label="Export as CSV" tabindex="0" style="font-size:1rem;">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <label for="importCSVInput" class="btn-secondary" style="font-size:1rem;cursor:pointer;">
+                            <i class="fas fa-file-import"></i> Import CSV
+                            <input type="file" id="importCSVInput" accept=".csv" style="display:none;">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filters" aria-label="Task Filters">
+                    <select id="filterStatus" aria-label="Filter by Status">
+                        <option value="all">All Tasks</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <select id="filterPriority" aria-label="Filter by Priority">
+                        <option value="all">All Priorities</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                    <input type="text" id="searchTasks" placeholder="Search tasks..." aria-label="Search tasks">
+                </div>
+
+                <div class="tasks-container" id="tasksContainer" aria-live="polite">
+                    <p class="no-tasks">No tasks found. Create your first task!</p>
+                </div>
+            </div>
+
+            <!-- Timeline Tab -->
+            <div class="tab-content" id="timeline">
+                <div class="timeline-header">
+                    <h2>Study Timeline</h2>
+                    <div class="timeline-controls">
+                        <button class="btn-secondary" id="prevWeek">
+                            <i class="fas fa-chevron-left"></i> Previous Week
+                        </button>
+                        <span class="current-week" id="currentWeek"></span>
+                        <button class="btn-secondary" id="nextWeek">
+                            Next Week <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="timeline-view" id="timelineView">
+                    <div class="timeline-days" id="timelineDays"></div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-content" id="analytics">
+                <div class="analytics-header">
+                    <h2>Study Analytics</h2>
+                </div>
+                <div class="analytics-grid">
+                    <div class="card">
+                        <h3>Completion Rate</h3>
+                        <div class="metric">
+                            <span class="metric-value" id="completionRate">0%</span>
+                            <span class="metric-label">Tasks Completed</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Study Streak</h3>
+                        <div class="metric">
+                            <span class="metric-value" id="studyStreak">0</span>
+                            <span class="metric-label">Days</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Priority Distribution</h3>
+                        <div class="priority-chart" id="priorityChart"></div>
+                    </div>
+                    <div class="card">
+                        <h3>Weekly Progress</h3>
+                        <div class="weekly-chart" id="weeklyChart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pomodoro Tab -->
+            <div class="tab-content" id="pomodoro">
+                <div class="pomodoro-container">
+                    <div class="card pomodoro-timer">
+                        <h3><i class="fas fa-clock"></i> Pomodoro Timer</h3>
+                        <div class="pomodoro-display-container">
+                            <div class="pomodoro-circle">
+                                <div class="pomodoro-progress" id="pomodoroProgress"></div>
+                                <div class="pomodoro-display" id="pomodoroDisplay">25:00</div>
+                            </div>
+                        </div>
+                        <div class="pomodoro-type-buttons">
+                            <button class="btn-pomodoro active" id="pomodoroWork">Work (25min)</button>
+                            <button class="btn-pomodoro" id="pomodoroShortBreak">Short Break (5min)</button>
+                            <button class="btn-pomodoro" id="pomodoroLongBreak">Long Break (15min)</button>
+                        </div>
+                        <div class="pomodoro-controls">
+                            <button class="btn-primary" id="pomodoroStart">
+                                <i class="fas fa-play"></i> Start
+                            </button>
+                            <button class="btn-secondary" id="pomodoroPause" style="display: none;">
+                                <i class="fas fa-pause"></i> Pause
+                            </button>
+                            <button class="btn-secondary" id="pomodoroReset">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Tab -->
+            <div class="tab-content" id="goals">
+                <div class="goals-header">
+                    <h2>Study Goals</h2>
+                    <button class="btn-primary" id="addGoalBtn">
+                        <i class="fas fa-plus"></i> Add New Goal
+                    </button>
+                </div>
+                <div class="goals-container" id="goalsContainer">
+                    <p class="no-goals">No goals set. Create your first goal!</p>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                </div>
+                <div class="settings-grid">
+                    <div class="card">
+                        <h3><i class="fas fa-palette"></i> Theme Settings</h3>
+                        <div class="setting-group">
+                            <label for="themeSelector">Choose Theme:</label>
+                            <select id="themeSelector">
+                                <option value="default">Default</option>
+                                <option value="ocean">Ocean</option>
+                                <option value="sunset">Sunset</option>
+                                <option value="forest">Forest</option>
+                                <option value="midnight">Midnight</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <button class="btn-secondary" id="customColorBtn">
+                                <i class="fas fa-paint-brush"></i> Custom Colors
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><i class="fas fa-calendar-alt"></i> Google Calendar</h3>
+                        <div class="setting-group">
+                            <p>Status: <span id="googleCalendarStatus" class="status-disconnected">Not connected</span></p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="btn-primary" id="googleCalendarSync">
+                                    <i class="fas fa-sync"></i> Connect Google Calendar
+                                </button>
+                                <button class="btn-secondary" onclick="studyPlanner.retryGoogleAPI()">
+                                    <i class="fas fa-redo"></i> Retry API
+                                </button>
+                                <button class="btn-secondary" onclick="studyPlanner.diagnoseGoogleAPI()">
+                                    <i class="fas fa-bug"></i> Diagnose
+                                </button>
+                                <button class="btn-secondary" onclick="studyPlanner.testGoogleAPIManually()">
+                                    <i class="fas fa-test-tube"></i> Test API
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-bell"></i> Notifications</h3>
+                        <div class="setting-group">
+                            <label>
+                                <input type="checkbox" id="enableNotifications" checked>
+                                Enable browser notifications
+                            </label>
+                            <label>
+                                <input type="checkbox" id="enableSounds" checked>
+                                Enable notification sounds
+                            </label>
+                            <label>
+                                <input type="checkbox" id="enableOverdueAlerts" checked>
+                                Enable overdue task alerts
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-database"></i> Data Management</h3>
+                        <div class="setting-group">
+                            <button class="btn-secondary" onclick="studyPlanner.exportData()">
+                                <i class="fas fa-download"></i> Export Data
+                            </button>
+                            <label for="importDataInput" class="btn-secondary">
+                                <i class="fas fa-upload"></i> Import Data
+                                <input type="file" id="importDataInput" accept=".json" style="display:none;">
+                            </label>
+                            <button class="btn-danger" onclick="if(confirm('Clear all data?')) { localStorage.clear(); location.reload(); }">
+                                <i class="fas fa-trash"></i> Clear All Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content" tabindex="-1">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Task</h3>
+                <button class="close-btn" id="closeModal" aria-label="Close Modal" tabindex="0">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <form class="task-form" id="taskForm" aria-label="Task Form" autocomplete="off">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" required aria-label="Task Title">
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" rows="3" aria-label="Description"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskDueDate">Due Date</label>
+                        <input type="datetime-local" id="taskDueDate" required aria-label="Due Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority" required aria-label="Priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskSubject">Subject</label>
+                        <input type="text" id="taskSubject" placeholder="e.g., Mathematics, History" aria-label="Subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskEstimatedTime">Estimated Time (hours)</label>
+                        <input type="number" id="taskEstimatedTime" min="0.5" step="0.5" placeholder="2.5" aria-label="Estimated Time (hours)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="taskTags">Tags (comma separated)</label>
+                    <input type="text" id="taskTags" placeholder="exam, revision, homework" aria-label="Tags">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn" aria-label="Cancel" tabindex="0">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveTaskBtn" aria-label="Save Task" tabindex="0">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:3000;align-items:center;justify-content:center;">
+        <div style="background:white;padding:32px 48px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.15);display:flex;flex-direction:column;align-items:center;gap:16px;">
+            <div class="spinner" aria-label="Loading" role="status" style="width:48px;height:48px;border:6px solid #e2e8f0;border-top:6px solid #5a67d8;border-radius:50%;animation:spin 1s linear infinite;"></div>
+            <span style="color:#2d3748;font-weight:600;">Loading...</span>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+    // Simple local password authentication
+    const authModal = document.getElementById('authModal');
+    const authPassword = document.getElementById('authPassword');
+    const authSubmit = document.getElementById('authSubmit');
+    const authError = document.getElementById('authError');
+    const AUTH_KEY = 'studyPlannerPassword';
+    function showAuthModal() {
+        authModal.style.display = 'flex';
+        setTimeout(() => { authPassword.focus(); }, 100);
+    }
+    function hideAuthModal() {
+        authModal.style.display = 'none';
+        authError.style.display = 'none';
+        authPassword.value = '';
+    }
+    function checkAuth() {
+        const saved = localStorage.getItem(AUTH_KEY);
+        if (!saved) {
+            // First time: set password
+            const pwd = prompt('Set a password for your Study Planner:');
+            if (pwd && pwd.length >= 4) {
+                localStorage.setItem(AUTH_KEY, pwd);
+                return true;
+            } else {
+                alert('Password must be at least 4 characters.');
+                location.reload();
+                return false;
+            }
+        }
+        showAuthModal();
+        return false;
+    }
+    authSubmit.onclick = function() {
+        const saved = localStorage.getItem(AUTH_KEY);
+        if (authPassword.value === saved) {
+            hideAuthModal();
+        } else {
+            authError.style.display = 'block';
+        }
+    };
+    authPassword.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') authSubmit.click();
+    });
+    // Show auth modal on load if password is set
+    window.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem(AUTH_KEY)) {
+            showAuthModal();
+        } else {
+            checkAuth();
+        }
+    });
+    </script>
+    <script>
+    // Dark mode toggle logic
+    const darkModeBtn = document.getElementById('darkModeToggle');
+    function setDarkMode(on) {
+        if (on) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('darkMode', '1');
+            darkModeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('darkMode', '0');
+            darkModeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+    }
+    if (localStorage.getItem('darkMode') === '1') setDarkMode(true);
+    darkModeBtn.addEventListener('click', () => {
+        setDarkMode(!document.body.classList.contains('dark-mode'));
+    });
+    </script>
+    <style>
+    /* Color contrast improvements */
+    .header, .card, .timeline-header, .tasks-header, .analytics-header, .tasks-container, .filters, .modal-content, .timeline-view {
+        color: #222 !important;
+        background: #fff !important;
+    }
+    .tab-btn.active, .btn-primary {
+        background: linear-gradient(135deg, #2d3748, #5a67d8) !important;
+        color: #fff !important;
+    }
+    .tab-btn {
+        color: #2d3748 !important;
+    }
+    .task-item {
+        color: #222 !important;
+        background: #f8fafc !important;
+    }
+    /* Tab animation */
+    .tab-content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+        left: 0;
+    }
+    .tab-content.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        position: relative;
+    }
+    body.dark-mode {
+        background: linear-gradient(135deg, #232946 0%, #121629 100%) !important;
+        color: #eaeaea !important;
+    }
+    body.dark-mode .header, body.dark-mode .card, body.dark-mode .timeline-header, body.dark-mode .tasks-header, body.dark-mode .analytics-header, body.dark-mode .tasks-container, body.dark-mode .filters, body.dark-mode .modal-content, body.dark-mode .timeline-view {
+        background: rgba(30, 34, 54, 0.98) !important;
+        color: #eaeaea !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+    }
+    body.dark-mode .tab-btn.active, body.dark-mode .btn-primary {
+        background: linear-gradient(135deg, #232946, #5a67d8) !important;
+        color: #fff !important;
+    }
+    body.dark-mode .tab-btn, body.dark-mode .btn-secondary {
+        background: rgba(30, 34, 54, 0.7) !important;
+        color: #eaeaea !important;
+    }
+    body.dark-mode .task-item {
+        background: #232946 !important;
+        color: #eaeaea !important;
+    }
+    body.dark-mode .task-item.completed {
+        opacity: 0.5;
+    }
+    body.dark-mode .modal-overlay {
+        background: rgba(0,0,0,0.7) !important;
+    }
+    body.dark-mode .spinner {
+        border: 6px solid #232946 !important;
+        border-top: 6px solid #5a67d8 !important;
+    }
+    </style>
+    <style>
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</body>
+</main>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-text">
+                <p>Made with <span class="heart">❤️</span> by <strong>Satyam Pandey</strong></p>
+                <p class="footer-subtitle">Smart Study Planner – Organize, Track, Succeed</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/SatyamPandey-07" target="_blank" class="footer-link github-link">
+                    <span class="link-icon">🔗</span>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/satyam-pandey-0b246432a/" target="_blank" class="footer-link linkedin-link">
+                    <span class="link-icon">💼</span>
+                    LinkedIn
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Smart Study Planner. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</html>
