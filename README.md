@@ -422,22 +422,6 @@ This project is open for contributions! Here's how you can help:
 
 ---
 
-**Built with ❤️ for students who want to excel in their academic journey.**
-
-*Happy Studying! 🎓*
-
-*Happy Studying! 🎓*# 🚀 Smart Study Planner
-
-
-
----
-
-<div align="center">
-   <img src="https://user-images.githubusercontent.com/your-demo-image.png" width="600" alt="Smart Study Planner Screenshot" />
-</div>
-
----
-
 ## ✨ Why You'll Love It
 
 - 🎯 **All-in-One Dashboard**: Real-time stats, quick add, and upcoming tasks at a glance
@@ -477,20 +461,6 @@ This project is open for contributions! Here's how you can help:
 
 ---
 
-## 📂 Project Structure
-
-```text
-frontend-2/
-├── index.html           # Main app
-├── script.js            # All logic (modularized)
-├── styles.css           # Modern, themeable styles
-├── oauth2callback.html  # Google OAuth handler
-├── start-server.bat     # Local server for OAuth
-└── README.md            # This file
-```
-
----
-
 ## 💡 Key Features (Deep Dive)
 
 - **Dashboard:**
@@ -527,30 +497,12 @@ Made with ❤️ by [Satyam Pandey](https://github.com/SatyamPandey-07)
 
 ---
 
-## � License
-
-© 2025 Smart Study Planner. All rights reserved.
-### Installation
-
 1. **Download the files**:
    ```bash
    # Clone or download the repository
    git clone https://github.com/midlaj-muhammed/Smart-Study-Planner-for-AICTE-IBM-Frontend-Internship-Project.git
    cd smart-study-planner
    ```
-
-2. **File Structure**:
-   ```
-   smart-study-planner/
-   ├── index.html
-   ├── styles.css
-   ├── script.js
-   └── README.md
-   ```
-
-3. **Launch the application**:
-   - Open `index.html` in your web browser
-   - That's it! No server setup required
 
 ### Quick Start Guide
 
@@ -573,11 +525,6 @@ Made with ❤️ by [Satyam Pandey](https://github.com/SatyamPandey-07)
    - Plan your study schedule visually
 
 ## 💡 Usage Tips
-
-### Keyboard Shortcuts
-- `Ctrl/Cmd + N`: Create new task
-- `Ctrl/Cmd + F`: Focus on search (when in Tasks tab)
-- `Escape`: Close modal dialogs
 
 ### Best Practices
 - **Set Realistic Due Dates**: Avoid overwhelming yourself with tight deadlines
@@ -935,5 +882,5 @@ Potential improvements could include:
 
 **Happy Studying! 🎓**
 
-*Built with ❤️ for students who want to excel in their academic journey.*
+*Built with ❤️ for students.*
 
