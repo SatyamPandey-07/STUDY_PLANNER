@@ -777,7 +777,7 @@ Potential improvements could include:
 - **Cloud Synchronization**: Cross-device data sync with user accounts
 - **AI-Powered Suggestions**: Smart task prioritization and scheduling
 - **Study Groups**: Collaborative study sessions and group goals
-- **Advanced Theming**: More customization options and dark mode improvements
+- **Advanced Theming**: More customization options and dark mode improvement
 
 ---
 
