@@ -6,7 +6,6 @@
 <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white" />
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" />
 <img src="https://img.shields.io/badge/Google_Calendar_API-4285F4?logo=google-calendar&logoColor=white" />
-<img src="https://img.shields.io/badge/Web_Audio_API-FF5722?logo=webaudio&logoColor=white" />
 </div>
 
 > **A comprehensive, feature-rich study planner with advanced task management, goal tracking, Pomodoro timer, Google Calendar integration, and analytics dashboard.**
