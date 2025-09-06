@@ -8,7 +8,7 @@
 <img src="https://img.shields.io/badge/Google_Calendar_API-4285F4?logo=google-calendar&logoColor=white" />
 </div>
 
-> **A comprehensive, feature-rich study planner with advanced task management, goal tracking, Pomodoro timer, Google Calendar integration, and analytics dashboard.**
+> **The comprehensive, feature-rich study planner with advanced task management, goal tracking, Pomodoro timer, Google Calendar integration, and analytics dashboard.**
 
 
 ## 🚀 Quick Start
