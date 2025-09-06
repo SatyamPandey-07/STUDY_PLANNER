@@ -8,7 +8,7 @@
 <img src="https://img.shields.io/badge/Google_Calendar_API-4285F4?logo=google-calendar&logoColor=white" />
 </div>
 
-> **A comprehensive, feature-rich study planner with advanced task management, goal tracking, Pomodoro timer, Google Calendar integration, and analytics dashboard.**
+> **The comprehensive, feature-rich study planner with advanced task management, goal tracking, Pomodoro timer, Google Calendar integration, and analytics dashboard.**
 
 
 ## 🚀 Quick Start
@@ -777,7 +777,7 @@ Potential improvements could include:
 - **Cloud Synchronization**: Cross-device data sync with user accounts
 - **AI-Powered Suggestions**: Smart task prioritization and scheduling
 - **Study Groups**: Collaborative study sessions and group goals
-- **Advanced Theming**: More customization options and dark mode improvements
+- **Advanced Theming**: More customization options and dark mode improvement
 
 ---
 
